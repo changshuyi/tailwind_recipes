@@ -34,7 +34,7 @@ const Menu = () => {
   return (
     <>
       {/* <div className="h-screen flex justify-center items-center bg-green-100"> */}
-      <MenuItem collectionItem={collectionItem} />
+      <MenuItem collectionItem={collectionItem} key={type} />
       {/* <Card> */}
 
       {/* </Card> */}

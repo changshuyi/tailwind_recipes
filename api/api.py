@@ -86,5 +86,49 @@ def get_recipes_collection():
 
     return jsonify({'data': data_list})
 
+@app.route('/api/goodfoodrecipescontact', methods=['GET', 'POST'])
+def get_recipes_contact():
+    print(' cardLink = ',  request.get_json()['cardLink'])
+    url = "https://www.bbcgoodfood.com" + request.get_json()['cardLink']
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+    params = {}
+    response = requests.get(url, headers=headers, params=params)
+    soup = bs4.BeautifulSoup(response.text, "html.parser")
+    # print(soup)
+    recipes_title = soup.find_all('h1', class_='heading-1')
+    recipes_ingredients_items = soup.find_all('li', class_='pb-xxs pt-xxs list-item list-item--separator')
+    recipes_method_items = soup.find_all('li', class_='pb-xs pt-xs list-item')
+    
+    ingredients=[]
+    method=[]
+
+    for title in recipes_title:
+        title_text = title.getText()
+
+    for items in recipes_ingredients_items:
+        ingredients_items = items.getText()
+        ingredients.append(ingredients_items)
+
+    for steps in recipes_method_items:
+        steps_heading = steps.find('span').getText()
+        steps_editor_conten = steps.find('div').getText()
+        method.append({'steps_heading': steps_heading, 'steps_editor_conten': steps_editor_conten})
+        
+    json_string = json.dumps({'data': {'title':title_text, 'ingredients':ingredients, 'method':method}})
+    # # 爬完匯入到json檔
+    save_path = 'D:/tailwind_recipes/src/jsonfile'
+    complete_name = os.path.join(save_path,'recipes_contact_'+title_text)         
+    if os.path.exists(complete_name):
+        with open(complete_name+'.json', 'r') as outfile:
+            old_data = outfile.read()
+
+    with open(complete_name +'.json', 'w') as outfile:
+        outfile.write(json_string)
+
+    return jsonify({'data': {'title':title_text, 'ingredients':ingredients, 'method':method}})
+
 if __name__ == '__main__':
     app.run(debug=True)
