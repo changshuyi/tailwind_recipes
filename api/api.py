@@ -40,8 +40,10 @@ def get_recipes_category():
         # print('content = ', content)
     json_string = json.dumps({'data': data_list})
     # 爬完匯入到json檔
-    # with open('recipes_category.json', 'w') as outfile:
-    #     outfile.write(json_string)
+    save_path = 'D:/tailwind_recipes/src/jsonfile'
+    complete_name = os.path.join(save_path,'recipes_category.json')         
+    with open(complete_name, 'w') as outfile:
+        outfile.write(json_string)
 
     return jsonify({'data': data_list})
 
@@ -73,12 +75,14 @@ def get_recipes_collection():
 
     json_string = json.dumps({'data': data_list})
     # 爬完匯入到json檔
-    # if os.path.exists('recipes_collection'+request.get_json()['type']):
-    #     with open('recipes_collection'+request.get_json()['type']+'.json', 'r') as outfile:
-    #         old_data = outfile.read()
+    save_path = 'D:/tailwind_recipes/src/jsonfile'
+    complete_name = os.path.join(save_path,'recipes_collection'+request.get_json()['type'])         
+    if os.path.exists(complete_name):
+        with open(complete_name+'.json', 'r') as outfile:
+            old_data = outfile.read()
 
-    # with open('recipes_collection'+ request.get_json()['type'] +'.json', 'w') as outfile:
-    #     outfile.write(json_string)
+    with open(complete_name +'.json', 'w') as outfile:
+        outfile.write(json_string)
 
     return jsonify({'data': data_list})
 

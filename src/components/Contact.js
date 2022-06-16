@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Button, Modal, Pagination } from 'flowbite-react';
 import CardItem from './CardItem';
+import jsonFile from '../jsonfile/recipes_category.json';
 
 const Contact = () => {
   const [isAdd, setIsAdd] = useState(false);
@@ -14,22 +15,21 @@ const Contact = () => {
   };
 
   const getData = () => {
-    fetch('/api/goodfoodcategory', {
-      // method: 'POST',
-      // headers: {
-      //   Accept: 'application/json',
-      //   'Content-Type': 'application/json',
-      // },
-      // body: JSON.stringify(),
-    })
+    fetch('/api/goodfoodcategory', {})
       .then((response) => response.json())
       .then((data) => {
         setAllData(data?.data);
       });
   };
 
+  const readJson = () => {
+    setAllData(jsonFile?.data);
+    console.log('jsonFile = ', jsonFile);
+  };
+
   useEffect(() => {
-    getData();
+    // getData();
+    readJson();
   }, []);
 
   return (
