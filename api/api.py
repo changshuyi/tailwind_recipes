@@ -76,7 +76,7 @@ def get_recipes_collection():
     json_string = json.dumps({'data': data_list})
     # 爬完匯入到json檔
     save_path = 'D:/tailwind_recipes/src/jsonfile'
-    complete_name = os.path.join(save_path,'recipes_collection'+request.get_json()['type'])         
+    complete_name = os.path.join(save_path,'recipes_collection'+request.get_json()['type'].replace(":", ""))         
     if os.path.exists(complete_name):
         with open(complete_name+'.json', 'r') as outfile:
             old_data = outfile.read()
@@ -88,7 +88,6 @@ def get_recipes_collection():
 
 @app.route('/api/goodfoodrecipescontact', methods=['GET', 'POST'])
 def get_recipes_contact():
-    print(' cardLink = ',  request.get_json()['cardLink'])
     url = "https://www.bbcgoodfood.com" + request.get_json()['cardLink']
     headers = {
         'Accept': 'application/json',
@@ -116,7 +115,7 @@ def get_recipes_contact():
         steps_heading = steps.find('span').getText()
         steps_editor_conten = steps.find('div').getText()
         method.append({'steps_heading': steps_heading, 'steps_editor_conten': steps_editor_conten})
-        
+
     json_string = json.dumps({'data': {'title':title_text, 'ingredients':ingredients, 'method':method}})
     # # 爬完匯入到json檔
     save_path = 'D:/tailwind_recipes/src/jsonfile'

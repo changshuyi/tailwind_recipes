@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Modal } from 'flowbite-react';
 
 const MenuItem = (props) => {
@@ -25,7 +25,6 @@ const MenuItem = (props) => {
       .then((response) => response.json())
       .then((data) => {
         setContentItems(data?.data);
-        console.log('contentItems = ', contentItems);
       });
   };
 
@@ -73,7 +72,7 @@ const MenuItem = (props) => {
       <Modal size="5xl" show={isAdd} onClose={() => setIsAdd(false)}>
         <Modal.Header>
           <div className="text-4xl text-gray-300 font-mono">
-            {contentItems.title}
+            {contentItems?.title}
           </div>
         </Modal.Header>
         <Modal.Body>

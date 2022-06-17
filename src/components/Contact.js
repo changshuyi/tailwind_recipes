@@ -6,6 +6,7 @@ import jsonFile from '../jsonfile/recipes_category.json';
 const Contact = () => {
   const [allData, setAllData] = useState({});
 
+  // 更新資料時再用這個
   const getData = () => {
     fetch('/api/goodfoodcategory', {})
       .then((response) => response.json())
@@ -16,7 +17,6 @@ const Contact = () => {
 
   const readJson = () => {
     setAllData(jsonFile?.data);
-    console.log('jsonFile = ', jsonFile);
   };
 
   useEffect(() => {

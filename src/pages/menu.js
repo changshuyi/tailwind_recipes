@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Card } from 'flowbite-react';
 import MenuItem from '../components/MenuItem';
 
 const Menu = () => {
@@ -23,12 +22,21 @@ const Menu = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log('data?.data = ', data?.data);
         setCollectionItem(data?.data);
       });
   };
 
+  const readJson = () => {
+    const jsonData = require('../jsonfile/recipes_collection' +
+      type.replace(':', '') +
+      '.json');
+    setCollectionItem(jsonData?.data);
+  };
+
   useEffect(() => {
-    getData();
+    // getData();
+    readJson();
   }, []);
 
   return (
